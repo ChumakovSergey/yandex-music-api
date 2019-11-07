@@ -3,8 +3,8 @@ from yandex_music import YandexMusicObject
 
 class Ratings(YandexMusicObject):
     def __init__(self,
-                 week,
-                 month,
+                 week=None,
+                 month=None,
                  day=None,
                  client=None,
                  **kwargs):

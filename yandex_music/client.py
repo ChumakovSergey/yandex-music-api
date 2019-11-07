@@ -25,7 +25,6 @@ de_list_likes = {
     'playlist': PlaylistsLikes.de_list,
 }
 
-
 logging.getLogger(__name__).addHandler(logging.NullHandler())
 
 
@@ -1006,6 +1005,9 @@ class Client(YandexMusicObject):
 
         result = self._request.get(url, timeout=timeout, *args, **kwargs)
 
+        if not result or (type(result) == dict and result.get('result') != None and not result['result']):
+            return []
+
         return Playlist.de_list(result, self)
 
     def _get_likes(self, object_type, user_id: int or str = None, params=None, timeout=None, *args, **kwargs):
@@ -1018,6 +1020,9 @@ class Client(YandexMusicObject):
 
         if object_type == 'track':
             return TracksList.de_json(result.get('library'), self)
+
+        if not result or (type(result) == dict and result.get('result') != None and not result['result']):
+            return []
 
         return de_list_likes.get(object_type)(result, self)
 
